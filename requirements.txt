@@ -4,5 +4,5 @@ jupytext
 numpy
 pandas
 matplotlib
-sklearn
+scikit-learn
 nilearn
