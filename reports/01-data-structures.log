@@ -35,7 +35,7 @@ Here is a preview of the cell contents:
 from nilearn import datasets
 
 development_dataset = datasets.fetch_development_fmri(
-    n_subjects=30, reduce_confounds=False
+    n_subjects=20, reduce_confounds=False
     )
 -------------------
 
