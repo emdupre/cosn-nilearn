@@ -10,6 +10,8 @@ author                      : Elizabeth DuPre  # The author of the book
 copyright                   : "2022"  # Copyright year to be placed in the footer
 logo                        : "../images/nilearn-logo.png"  # A path to the book logo
 exclude_patterns            : []  # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
+bibtex_bibfiles:
+    - references.bib
 
 #######################################################################################
 # Execution settings
@@ -48,4 +50,5 @@ repository:
 # Advanced and power-user settings
 sphinx:
   extra_extensions          :   # A list of extra extensions to load by Sphinx.
-  config                    :   # key-value pairs to directly over-ride the Sphinx configuration
+  config:
+    bibtex_reference_style: author_year
