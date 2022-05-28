@@ -2,6 +2,8 @@
 
 Materials for the [Chinese Open Science Network (COSN)](https://open-sci.cn/) Nilearn workshop, originally given on 28 May at 10a (Beijing time).
 
+![](https://pbs.twimg.com/media/FTnSS5iXoAE9RTe?format=jpg&name=4096x4096)
+
 ## Provided materials
 
 These materials are provided as a [Jupyter Book](https://jupyterbook.org) and compiled online using [GitHub Actions](https://github.com/features/actions).
