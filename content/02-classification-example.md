@@ -7,11 +7,9 @@ jupytext:
 kernelspec:
   display_name: Python 3
   name: python3
-repository:
-  url: https://github.com/emdupre/nha2020-nilearn
 ---
 
-# An example classification problem
+# Performing analyses and visualizing results
 
 ```{code-cell} python3
 :tags: [hide-cell]
