@@ -1,2 +1,5 @@
+format: jb-book
+root: index
+chapters:
 - file: 01-data-structures
 - file: 02-classification-example

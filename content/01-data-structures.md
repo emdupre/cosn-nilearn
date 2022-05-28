@@ -9,16 +9,7 @@ repository:
   url: https://github.com/emdupre/cosn-nilearn
 ---
 
-# An introduction to [`nilearn`](http://nilearn.github.io)
-
-```{code-cell} python3
-:tags: [hide-cell]
-
-import warnings
-warnings.filterwarnings("ignore")
-```
-
-In this tutorial, we'll see how the Python library `nilearn` allows us to easily perform machine learning analyses with neuroimaging data, specifically MRI and fMRI.
+# Using nilearn to structure and denoise neuroimaging data
 
 You may notice that the name `nilearn` is reminiscent of [`scikit-learn`](https://scikit-learn.org),
 a popular Python library for machine learning.

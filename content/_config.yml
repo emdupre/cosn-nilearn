@@ -5,9 +5,9 @@
 
 #######################################################################################
 # Book settings
-title                       : "NHA2020: Nilearn"  # The title of the book. Will be placed in the left navbar.
+title                       : "COSN Nilearn"  # The title of the book. Will be placed in the left navbar.
 author                      : Elizabeth DuPre  # The author of the book
-copyright                   : "2020"  # Copyright year to be placed in the footer
+copyright                   : "2022"  # Copyright year to be placed in the footer
 logo                        : "../images/nilearn-logo.png"  # A path to the book logo
 exclude_patterns            : []  # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 
@@ -36,13 +36,13 @@ html:
 launch_buttons:
   notebook_interface        : classic  # The interface interactive links will activate ["classic", "jupyterlab"]
   binderhub_url             : https://mybinder.org  # The URL of the BinderHub (e.g., https://mybinder.org)
-  jupyterhub_url            : "https://hub.neurohackademy.org"  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+  jupyterhub_url            : ""  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
   thebe                     : false  # Add a thebe button to pages (requires the repository to run on Binder)
 
 repository:
-  url                       : https://github.com/emdupre/nha2020-nilearn  # The URL to your book's repository
+  url                       : https://github.com/emdupre/cosn-nilearn  # The URL to your book's repository
   path_to_book              : "content"  # A path to your book's folder, relative to the repository root.
-  branch                    : master  # Which branch of the repository should be used when creating links
+  branch                    : main  # Which branch of the repository should be used when creating links
 
 #######################################################################################
 # Advanced and power-user settings
