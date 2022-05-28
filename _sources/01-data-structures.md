@@ -42,6 +42,9 @@ This makes it easier to consider issues such as: which features would we like to
 Or, how should we handle cross-validation?
 
 But if we're starting with neuroimaging data, how can create this kind of structured representation?
+In this tutorial, we'll use our sample neuroimaging data and a pre-defined functional atlas to derive connectomes that we can use in our subsequent classification analyses.
+While your extracted features of interest may differ depending on your downstream analyses (e.g., you may want to use a different atlas),
+this basic structure is useful for a range of research questions!
 
 ## Neuroimaging data
 
@@ -62,48 +65,52 @@ Nilearn also provides access to several neuroimaging data sets and atlases (we'l
 
 These data sets (and atlases) are only accessible because research groups chose to make their collected data publicly available.
 We owe them a huge thank you for this!
-The data set we'll use today was originally collected by [Rebecca Saxe](https://mcgovern.mit.edu/profile/rebecca-saxe/)'s group at MIT and hosted on [OpenNeuro](https://openneuro.org/datasets/ds000228/versions/1.1.0).
+The data set we'll use today was originally collected by [Rebecca Saxe](https://mcgovern.mit.edu/profile/rebecca-saxe/)'s group at MIT and is hosted on [OpenNeuro](https://openneuro.org/datasets/ds000228/versions/1.1.0).
 
 The nilearn team preprocessed the data set with [fMRIPrep](https://fmriprep.readthedocs.io) and downsampled it to a lower resolution,
 so it'd be easier to work with.
 We can learn a lot about this data set directly [from the Nilearn documentation](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_development_fmri.html).
 For example, we can see that this data set contains over 150 children and adults watching a short Pixar film.
-Let's download the first 30 participants.
+Let's download just the first 30 participants.
 
 ```{code-cell} python3
 :tags: [hide-output]
 from nilearn import datasets
 
-development_dataset = datasets.fetch_development_fmri(n_subjects=30)
+development_dataset = datasets.fetch_development_fmri(
+    n_subjects=30, reduce_confounds=False
+    )
 ```
 
 Now, this `development_dataset` object has several attributes which provide access to the relevant information.
 For example, `development_dataset.phenotypic` provides access to information about the participants, such as whether they were children or adults.
 We can use `development_dataset.func` to access the functional MRI (fMRI) data.
 
-Let's use the [nibabel library](https://nipy.org/nibabel/) to learn a little bit about this data:
+Let's use the [nibabel library](https://nipy.org/nibabel/) to learn a little bit about one image from this dataset:
 
 ```{code-cell} python3
 import nibabel as nib
 
+# Subset to just the first image
 img = nib.load(development_dataset.func[0])
 img.shape
 ```
 
-This means that there are 168 volumes, each with a 3D structure of (50, 59, 50).
+This means that in this fMRI image, there are 168 volumes, each with a 3D structure of (50, 59, 50).
 
 ## Getting into the data: subsetting and viewing
 
-Nilearn also provides many methods for plotting this kind of data.
+Nilearn provides many methods for plotting this kind of data.
 For example, we can use [`nilearn.plotting.view_img`](https://nilearn.github.io/modules/generated/nilearn.plotting.view_img.html) to launch at interactive viewer.
 Because each fMRI run is a 4D time series (three spatial dimensions plus time),
 we'll also need to subset the data when we plot it, so that we can look at a single 3D image.
+
 Nilearn provides (at least) two ways to do this: with [`nilearn.image.index_img`](https://nilearn.github.io/modules/generated/nilearn.image.index_img.html),
 which allows us to index a particular frame--or several frames--of a time series,
 and [`nilearn.image.mean_img`](https://nilearn.github.io/modules/generated/nilearn.image.mean_img.html),
 which allows us to take the mean 3D image over time.
 
-Putting these together, we can interatively view the mean image of the first participant using:
+Let's interatively view the mean image of the first participant using:
 
 ```{code-cell} python3
 import matplotlib.pyplot as plt
@@ -119,12 +126,16 @@ plotting.view_img(mean_image, threshold=None)
 As you can see, this data is decidedly not tabular!
 What we'd like is to extract and transform meaningful features from this data,
 and store it in a format that we can easily work with.
+We'll also need to correct this data for known confounds--as mentioned before--but we'll come back to that idea.
+
 Importantly, we _could_ work with the full time series directly.
 But we often want to reduce the dimensionality of our data in a structured way.
 That is, we may only want to consider signal within certain learned or pre-defined regions of interest (ROIs),
 and when taking into account known sources of noise.
 To do this, we'll use nilearn's Masker objects.
-What are the masker objects ?
+
+### What are the masker objects?
+
 First, let's think about what masking fMRI data is doing:
 
 ```{figure} ../images/masking.jpg
@@ -165,7 +176,7 @@ print(f'MSDL has {n_regions} ROIs, part of the following networks :\n{np.unique(
 ```
 
 Nilearn ships with several atlases commonly used in the field,
-including the Schaefer atlas and the Harvard-Oxford atlas.
+including the Schaefer atlas {cite}`Schaefer_2018` and the Harvard-Oxford atlas.
 
 It also provides us with easy ways to view these atlases directly.
 Because MSDL is a probabilistic atlas, we can view it using:
@@ -216,7 +227,7 @@ that's because we're fitting the Masker to the provided ROIs, rather than to our
 
 ## Dimensions, dimensions
 
-We can use this fitted masker to transform our data.
+We can now use this fitted masker to transform our data.
 
 ```{code-cell} python3
 roi_time_series = masker.transform(development_dataset.func[0])
@@ -292,16 +303,20 @@ pd.read_table(development_dataset.confounds[0]).head()
 ```
 
 We can see that there are several different kinds of noise sources included!
-This is actually a subset of all possible fMRIPrep generated confounds that the Nilearn developers have pre-selected.
-We could access the full list by passing the argument `reduce_confounds=False` to our original call downloading the `development_dataset`.
-For most analyses, this list of confounds is reasonable, so we'll use these Nilearn provided defaults.
-For your own analyses, make sure to check which confounds you're using!
+From [version 0.9.0](https://nilearn.github.io/stable/changes/whats_new.html#id101), Nilearn now includes a `load_confounds` functionality to parse these fMRIPrep-generated confounds in a sensible way.
+
+```{code-cell} python3
+from nilearn.interfaces import fmriprep
+confounds, _ = fmriprep.load_confounds_strategy(
+    imgs=development_dataset.func,
+    denoise_strategy='simple')
+```
 
 Importantly, we can pass these confounds directly to our masker object:
 
 ```{code-cell} python3
 corrected_roi_time_series = masker.transform(
-    development_dataset.func[0], confounds=development_dataset.confounds[0])
+    development_dataset.func[0], confounds=confounds[0])
 corrected_correlation_matrix = correlation_measure.fit_transform(
     [corrected_roi_time_series])[0]
 np.fill_diagonal(corrected_correlation_matrix, 0)

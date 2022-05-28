@@ -215,6 +215,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#extracting-signal-from-fmri-volumes">
    Extracting signal from fMRI volumes
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-are-the-masker-objects">
+     What are the masker objects?
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#choosing-regions-of-interest">
@@ -280,6 +287,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#extracting-signal-from-fmri-volumes">
    Extracting signal from fMRI volumes
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-are-the-masker-objects">
+     What are the masker objects?
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#choosing-regions-of-interest">
@@ -492,7 +506,10 @@ That is, the data is structured in a tabular format,
 with pre-extracted features of interest.
 This makes it easier to consider issues such as: which features would we like to predict?
 Or, how should we handle cross-validation?</p>
-<p>But if we’re starting with neuroimaging data, how can create this kind of structured representation?</p>
+<p>But if we’re starting with neuroimaging data, how can create this kind of structured representation?
+In this tutorial, we’ll use our sample neuroimaging data and a pre-defined functional atlas to derive connectomes that we can use in our subsequent classification analyses.
+While your extracted features of interest may differ depending on your downstream analyses (e.g., you may want to use a different atlas),
+this basic structure is useful for a range of research questions!</p>
 <div class="section" id="neuroimaging-data">
 <h2>Neuroimaging data<a class="headerlink" href="#neuroimaging-data" title="Permalink to this headline">¶</a></h2>
 <p>Neuroimaging data does not have a tabular structure.
@@ -508,17 +525,19 @@ You may have your own data locally that you’d like to work with.
 Nilearn also provides access to several neuroimaging data sets and atlases (we’ll talk about these a bit later).</p>
 <p>These data sets (and atlases) are only accessible because research groups chose to make their collected data publicly available.
 We owe them a huge thank you for this!
-The data set we’ll use today was originally collected by <a class="reference external" href="https://mcgovern.mit.edu/profile/rebecca-saxe/">Rebecca Saxe</a>’s group at MIT and hosted on <a class="reference external" href="https://openneuro.org/datasets/ds000228/versions/1.1.0">OpenNeuro</a>.</p>
+The data set we’ll use today was originally collected by <a class="reference external" href="https://mcgovern.mit.edu/profile/rebecca-saxe/">Rebecca Saxe</a>’s group at MIT and is hosted on <a class="reference external" href="https://openneuro.org/datasets/ds000228/versions/1.1.0">OpenNeuro</a>.</p>
 <p>The nilearn team preprocessed the data set with <a class="reference external" href="https://fmriprep.readthedocs.io">fMRIPrep</a> and downsampled it to a lower resolution,
 so it’d be easier to work with.
 We can learn a lot about this data set directly <a class="reference external" href="https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_development_fmri.html">from the Nilearn documentation</a>.
 For example, we can see that this data set contains over 150 children and adults watching a short Pixar film.
-Let’s download the first 30 participants.</p>
+Let’s download just the first 30 participants.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 
-<span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span><span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span>
+    <span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">reduce_confounds</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -531,7 +550,7 @@ Dataset created in /home/runner/nilearn_data/development_fmri/development_fmri
 Downloading data from https://osf.io/yr3av/download ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3df4712b400183b7092/ ...
@@ -567,7 +586,7 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e54712b400183b70a5/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e52286e80018c3e439/ ...
@@ -585,13 +604,13 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e9a743a90017608158/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e82286e80018c3e443/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3ea4712b400183b70b7/ ...
@@ -615,13 +634,13 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff37c2286e80019c3c102/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb4701e3992690018133d4f/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb46e6b353c58001b9cb34f/ ...
@@ -669,42 +688,19 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3814712b4001a3b5561/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3832286e80016c3c2d1/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3842286e80017c419e0/ ...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3854712b4001a3b5568/ ...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb4702f39926900171090ee/ ...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb46e8b353c58001c9abe98/ ...
-</pre></div>
-</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1717</span><span class="o">/</span><span class="mf">2236572832.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1953</span><span class="o">/</span><span class="mf">3165695745.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span><span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">reduce_confounds</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="p">)</span>
 
 <span class="nn">/opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/nilearn/datasets/func.py</span> in <span class="ni">fetch_development_fmri</span><span class="nt">(n_subjects, reduce_confounds, data_dir, resume, verbose, age_group)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1626</span>                                                            <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -812,30 +808,31 @@ Downloading data from https://osf.io/yr3av/download ...
 <p>Now, this <code class="docutils literal notranslate"><span class="pre">development_dataset</span></code> object has several attributes which provide access to the relevant information.
 For example, <code class="docutils literal notranslate"><span class="pre">development_dataset.phenotypic</span></code> provides access to information about the participants, such as whether they were children or adults.
 We can use <code class="docutils literal notranslate"><span class="pre">development_dataset.func</span></code> to access the functional MRI (fMRI) data.</p>
-<p>Let’s use the <a class="reference external" href="https://nipy.org/nibabel/">nibabel library</a> to learn a little bit about this data:</p>
+<p>Let’s use the <a class="reference external" href="https://nipy.org/nibabel/">nibabel library</a> to learn a little bit about one image from this dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nib</span>
 
+<span class="c1"># Subset to just the first image</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>This means that there are 168 volumes, each with a 3D structure of (50, 59, 50).</p>
+<p>This means that in this fMRI image, there are 168 volumes, each with a 3D structure of (50, 59, 50).</p>
 </div>
 <div class="section" id="getting-into-the-data-subsetting-and-viewing">
 <h2>Getting into the data: subsetting and viewing<a class="headerlink" href="#getting-into-the-data-subsetting-and-viewing" title="Permalink to this headline">¶</a></h2>
-<p>Nilearn also provides many methods for plotting this kind of data.
+<p>Nilearn provides many methods for plotting this kind of data.
 For example, we can use <a class="reference external" href="https://nilearn.github.io/modules/generated/nilearn.plotting.view_img.html"><code class="docutils literal notranslate"><span class="pre">nilearn.plotting.view_img</span></code></a> to launch at interactive viewer.
 Because each fMRI run is a 4D time series (three spatial dimensions plus time),
-we’ll also need to subset the data when we plot it, so that we can look at a single 3D image.
-Nilearn provides (at least) two ways to do this: with <a class="reference external" href="https://nilearn.github.io/modules/generated/nilearn.image.index_img.html"><code class="docutils literal notranslate"><span class="pre">nilearn.image.index_img</span></code></a>,
+we’ll also need to subset the data when we plot it, so that we can look at a single 3D image.</p>
+<p>Nilearn provides (at least) two ways to do this: with <a class="reference external" href="https://nilearn.github.io/modules/generated/nilearn.image.index_img.html"><code class="docutils literal notranslate"><span class="pre">nilearn.image.index_img</span></code></a>,
 which allows us to index a particular frame–or several frames–of a time series,
 and <a class="reference external" href="https://nilearn.github.io/modules/generated/nilearn.image.mean_img.html"><code class="docutils literal notranslate"><span class="pre">nilearn.image.mean_img</span></code></a>,
 which allows us to take the mean 3D image over time.</p>
-<p>Putting these together, we can interatively view the mean image of the first participant using:</p>
+<p>Let’s interatively view the mean image of the first participant using:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -854,13 +851,15 @@ which allows us to take the mean 3D image over time.</p>
 <p>As you can see, this data is decidedly not tabular!
 What we’d like is to extract and transform meaningful features from this data,
 and store it in a format that we can easily work with.
-Importantly, we <em>could</em> work with the full time series directly.
+We’ll also need to correct this data for known confounds–as mentioned before–but we’ll come back to that idea.</p>
+<p>Importantly, we <em>could</em> work with the full time series directly.
 But we often want to reduce the dimensionality of our data in a structured way.
 That is, we may only want to consider signal within certain learned or pre-defined regions of interest (ROIs),
 and when taking into account known sources of noise.
-To do this, we’ll use nilearn’s Masker objects.
-What are the masker objects ?
-First, let’s think about what masking fMRI data is doing:</p>
+To do this, we’ll use nilearn’s Masker objects.</p>
+<div class="section" id="what-are-the-masker-objects">
+<h3>What are the masker objects?<a class="headerlink" href="#what-are-the-masker-objects" title="Permalink to this headline">¶</a></h3>
+<p>First, let’s think about what masking fMRI data is doing:</p>
 <div class="figure align-default" id="masking">
 <a class="reference internal image-reference" href="_images/masking.jpg"><img alt="_images/masking.jpg" src="_images/masking.jpg" style="height: 350px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Masking fMRI data.</span><a class="headerlink" href="#masking" title="Permalink to this image">¶</a></p>
@@ -875,6 +874,7 @@ To start, we need to define a mask (or masks) that we’d like to apply.
 This could correspond to one or many regions of interest.
 Nilearn provides methods to define your own functional parcellation (using clustering algorithms such as <em>k-means</em>),
 and it also provides access to other atlases that have previously been defined by researchers.</p>
+</div>
 </div>
 <div class="section" id="choosing-regions-of-interest">
 <h2>Choosing regions of interest<a class="headerlink" href="#choosing-regions-of-interest" title="Permalink to this headline">¶</a></h2>
@@ -896,7 +896,7 @@ which defines a set of <em>probabilistic</em> ROIs across the brain.</p>
 </div>
 </div>
 <p>Nilearn ships with several atlases commonly used in the field,
-including the Schaefer atlas and the Harvard-Oxford atlas.</p>
+including the Schaefer atlas <a href="#id3"><span class="problematic" id="id4">:cite:`Schaefer_2018`</span></a> and the Harvard-Oxford atlas.</p>
 <p>It also provides us with easy ways to view these atlases directly.
 Because MSDL is a probabilistic atlas, we can view it using:</p>
 <div class="cell docutils container">
@@ -947,7 +947,7 @@ that’s because we’re fitting the Masker to the provided ROIs, rather than to
 </div>
 <div class="section" id="dimensions-dimensions">
 <h2>Dimensions, dimensions<a class="headerlink" href="#dimensions-dimensions" title="Permalink to this headline">¶</a></h2>
-<p>We can use this fitted masker to transform our data.</p>
+<p>We can now use this fitted masker to transform our data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roi_time_series</span> <span class="o">=</span> <span class="n">masker</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1026,15 +1026,22 @@ using <code class="docutils literal notranslate"><span class="pre">development_d
 </div>
 </div>
 <p>We can see that there are several different kinds of noise sources included!
-This is actually a subset of all possible fMRIPrep generated confounds that the Nilearn developers have pre-selected.
-We could access the full list by passing the argument <code class="docutils literal notranslate"><span class="pre">reduce_confounds=False</span></code> to our original call downloading the <code class="docutils literal notranslate"><span class="pre">development_dataset</span></code>.
-For most analyses, this list of confounds is reasonable, so we’ll use these Nilearn provided defaults.
-For your own analyses, make sure to check which confounds you’re using!</p>
+From <a class="reference external" href="https://nilearn.github.io/stable/changes/whats_new.html#id101">version 0.9.0</a>, Nilearn now includes a <code class="docutils literal notranslate"><span class="pre">load_confounds</span></code> functionality to parse these fMRIPrep-generated confounds in a sensible way.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nilearn.interfaces</span> <span class="kn">import</span> <span class="n">fmriprep</span>
+<span class="n">confounds</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fmriprep</span><span class="o">.</span><span class="n">load_confounds_strategy</span><span class="p">(</span>
+    <span class="n">imgs</span><span class="o">=</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">,</span>
+    <span class="n">denoise_strategy</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>Importantly, we can pass these confounds directly to our masker object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corrected_roi_time_series</span> <span class="o">=</span> <span class="n">masker</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-    <span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">confounds</span><span class="o">=</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">confounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">confounds</span><span class="o">=</span><span class="n">confounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">corrected_correlation_matrix</span> <span class="o">=</span> <span class="n">correlation_measure</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
     <span class="p">[</span><span class="n">corrected_roi_time_series</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corrected_correlation_matrix</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
