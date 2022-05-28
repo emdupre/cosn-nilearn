@@ -77,9 +77,7 @@ Let's download just the first 30 participants.
 :tags: [hide-output]
 from nilearn import datasets
 
-development_dataset = datasets.fetch_development_fmri(
-    n_subjects=30, reduce_confounds=False
-    )
+development_dataset = datasets.fetch_development_fmri(n_subjects=30)
 ```
 
 Now, this `development_dataset` object has several attributes which provide access to the relevant information.
@@ -287,6 +285,7 @@ plotting.view_connectome(correlation_matrix, edge_threshold=0.2,
                          node_coords=msdl_atlas.region_coords)
 ```
 
+
 ## Accounting for noise sources
 
 As we've already seen,
@@ -303,20 +302,18 @@ pd.read_table(development_dataset.confounds[0]).head()
 ```
 
 We can see that there are several different kinds of noise sources included!
-From [version 0.9.0](https://nilearn.github.io/stable/changes/whats_new.html#id101), Nilearn now includes a `load_confounds` functionality to parse these fMRIPrep-generated confounds in a sensible way.
-
-```{code-cell} python3
-from nilearn.interfaces import fmriprep
-confounds, _ = fmriprep.load_confounds_strategy(
-    imgs=development_dataset.func,
-    denoise_strategy='simple')
-```
+This is actually a subset of all possible fMRIPrep generated confounds that the Nilearn developers have pre-selected.
+We could access the full list by passing the argument `reduce_confounds=False` to our original call downloading the `development_dataset`.
+For most analyses, this list of confounds is reasonable, so we'll use these Nilearn provided defaults.
+For your own analyses, make sure to check which confounds you're using!
+For datasets processed with recent versions of fMRIPrep,
+check out the [`load_confounds`](https://nilearn.github.io/dev/modules/generated/nilearn.interfaces.fmriprep.load_confounds.html) functionality in Nilearn for a variety of confound processing strategies.
 
 Importantly, we can pass these confounds directly to our masker object:
 
 ```{code-cell} python3
 corrected_roi_time_series = masker.transform(
-    development_dataset.func[0], confounds=confounds[0])
+    development_dataset.func[0], confounds=development_dataset.confounds[0])
 corrected_correlation_matrix = correlation_measure.fit_transform(
     [corrected_roi_time_series])[0]
 np.fill_diagonal(corrected_correlation_matrix, 0)
