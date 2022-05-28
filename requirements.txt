@@ -1,6 +1,6 @@
 ghp-import
 jupyter-book
-jupytext
+jupytext>=1.6.0
 numpy
 pandas
 matplotlib
