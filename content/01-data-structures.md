@@ -298,6 +298,8 @@ using `development_dataset.confounds`.
 Let's quickly check what these look like for our first participant:
 
 ```{code-cell} python3
+import pandas as pd
+
 pd.read_table(development_dataset.confounds[0]).head()
 ```
 
