@@ -7,11 +7,9 @@ jupytext:
 kernelspec:
   display_name: Python 3
   name: python3
-repository:
-  url: https://github.com/emdupre/cosn-nilearn
 ---
 
-# Using nilearn to structure and denoise neuroimaging data
+# Extracting meaningful features
 
 You may notice that the name `nilearn` is reminiscent of [`scikit-learn`](https://scikit-learn.org),
 a popular Python library for machine learning.
