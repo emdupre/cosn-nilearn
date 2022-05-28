@@ -297,4 +297,5 @@ We encourage you to explore the [Examples](http://nilearn.github.io/auto_example
 
 ```{bibliography} references.bib
 :style: unsrt
+:filter: docname in docnames
 ```
