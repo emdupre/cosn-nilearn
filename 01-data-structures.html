@@ -535,9 +535,7 @@ Let’s download just the first 30 participants.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 
-<span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span>
-    <span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">reduce_confounds</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
+<span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span><span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -556,7 +554,7 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3df4712b400183b7092/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e04712b400193b5bdf/ ...
@@ -574,19 +572,19 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e32286e80018c3e42c/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e4a743a9001760814f/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e54712b400183b70a5/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3e52286e80018c3e439/ ...
@@ -640,7 +638,7 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb4701e3992690018133d4f/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb46e6b353c58001b9cb34f/ ...
@@ -652,13 +650,13 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff37d4712b400193b5b54/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff37d4712b400183b7011/ ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (2 seconds, 0 min)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff37e2286e80016c3c2cb/ ...
@@ -682,13 +680,42 @@ Downloading data from https://osf.io/yr3av/download ...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff382a743a90018606df8/ ...
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3814712b4001a3b5561/ ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3832286e80016c3c2d1/ ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3842286e80017c419e0/ ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5c8ff3854712b4001a3b5568/ ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ...done. (1 seconds, 0 min)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from https://osf.io/download/5cb4702f39926900171090ee/ ...
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1728</span><span class="o">/</span><span class="mf">3165695745.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1696</span><span class="o">/</span><span class="mf">2236572832.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span>
-<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">reduce_confounds</span><span class="o">=</span><span class="kc">False</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">development_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_development_fmri</span><span class="p">(</span><span class="n">n_subjects</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
 <span class="nn">/opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/nilearn/datasets/func.py</span> in <span class="ni">fetch_development_fmri</span><span class="nt">(n_subjects, reduce_confounds, data_dir, resume, verbose, age_group)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1626</span>                                                            <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -698,11 +725,11 @@ Downloading data from https://osf.io/yr3av/download ...
 <span class="g g-Whitespace">   </span><span class="mi">1630</span>     <span class="k">if</span> <span class="n">reduce_confounds</span><span class="p">:</span>
 
 <span class="nn">/opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/nilearn/datasets/func.py</span> in <span class="ni">_fetch_development_fmri_functional</span><span class="nt">(participants, data_dir, url, resume, verbose)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1505</span>                       <span class="p">{</span><span class="s1">&#39;move&#39;</span><span class="p">:</span> <span class="n">func</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">participant_id</span><span class="p">)})]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1506</span>         <span class="n">path_to_func</span> <span class="o">=</span> <span class="n">_fetch_files</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">func_file</span><span class="p">,</span> <span class="n">resume</span><span class="o">=</span><span class="n">resume</span><span class="p">,</span>
-<span class="ne">-&gt; </span><span class="mi">1507</span>                                     <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1508</span>         <span class="n">funcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path_to_func</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1509</span>     <span class="k">return</span> <span class="n">funcs</span><span class="p">,</span> <span class="n">regressors</span>
+<span class="g g-Whitespace">   </span><span class="mi">1498</span>                            <span class="p">{</span><span class="s1">&#39;move&#39;</span><span class="p">:</span> <span class="n">confounds</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">participant_id</span><span class="p">)})]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1499</span>         <span class="n">path_to_regressor</span> <span class="o">=</span> <span class="n">_fetch_files</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">regressor_file</span><span class="p">,</span>
+<span class="ne">-&gt; </span><span class="mi">1500</span>                                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1501</span>         <span class="n">regressors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path_to_regressor</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1502</span>         <span class="c1"># Download bold images</span>
 
 <span class="nn">/opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/nilearn/datasets/utils.py</span> in <span class="ni">_fetch_files</span><span class="nt">(data_dir, files, resume, verbose, session)</span>
 <span class="g g-Whitespace">    </span><span class="mi">711</span>             <span class="k">return</span> <span class="n">_fetch_files</span><span class="p">(</span>
@@ -1051,22 +1078,17 @@ using <code class="docutils literal notranslate"><span class="pre">development_d
 </div>
 </div>
 <p>We can see that there are several different kinds of noise sources included!
-From <a class="reference external" href="https://nilearn.github.io/stable/changes/whats_new.html#id101">version 0.9.0</a>, Nilearn now includes a <code class="docutils literal notranslate"><span class="pre">load_confounds</span></code> functionality to parse these fMRIPrep-generated confounds in a sensible way.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nilearn.interfaces</span> <span class="kn">import</span> <span class="n">fmriprep</span>
-<span class="n">confounds</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fmriprep</span><span class="o">.</span><span class="n">load_confounds_strategy</span><span class="p">(</span>
-    <span class="n">imgs</span><span class="o">=</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">,</span>
-    <span class="n">denoise_strategy</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
+This is actually a subset of all possible fMRIPrep generated confounds that the Nilearn developers have pre-selected.
+We could access the full list by passing the argument <code class="docutils literal notranslate"><span class="pre">reduce_confounds=False</span></code> to our original call downloading the <code class="docutils literal notranslate"><span class="pre">development_dataset</span></code>.
+For most analyses, this list of confounds is reasonable, so we’ll use these Nilearn provided defaults.
+For your own analyses, make sure to check which confounds you’re using!
+For datasets processed with recent versions of fMRIPrep,
+check out the <a class="reference external" href="https://nilearn.github.io/dev/modules/generated/nilearn.interfaces.fmriprep.load_confounds.html"><code class="docutils literal notranslate"><span class="pre">load_confounds</span></code></a> functionality in Nilearn for a variety of confound processing strategies.</p>
 <p>Importantly, we can pass these confounds directly to our masker object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corrected_roi_time_series</span> <span class="o">=</span> <span class="n">masker</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-    <span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">confounds</span><span class="o">=</span><span class="n">confounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">development_dataset</span><span class="o">.</span><span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">confounds</span><span class="o">=</span><span class="n">development_dataset</span><span class="o">.</span><span class="n">confounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">corrected_correlation_matrix</span> <span class="o">=</span> <span class="n">correlation_measure</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
     <span class="p">[</span><span class="n">corrected_roi_time_series</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corrected_correlation_matrix</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
